@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Football TIME!</title>
+    <meta name="description" content="My first PWA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <meta name="theme-color" content="#00897B" />
+  </head>
+  <body>
+    <!-- Navigasi -->
+    <nav class="teal lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a class="brand-logo" href='#home' id="logo-container" style="cursor: pointer"
+          >Football TIME!</a
+        >
+        <a href="#" class="sidenav-trigger" data-target="nav-mobile">&#9776;</a>
+
+        <ul class="topnav right hide-on-med-and-down"></ul>
+        <ul class="sidenav" id="nav-mobile"></ul>
+      </div>
+    </nav>
+    <!-- Akhir Navigasi -->
+
+    <div class="container" id="body-content"></div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/api.js"></script>
+
+
+    <script>
+      // REGISTER SERVICE WORKER
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(function () {
+              //console.log("Pendaftaran ServiceWorker berhasil");
+            })
+            .catch(function () {
+              console.log("Pendaftaran ServiceWorker gagal");
+            });
+
+          requestPermission();
+        });
+      } else {
+        console.log("ServiceWorker belum didukung browser ini.");
+      }
+
+      function requestPermission() {
+        if ("Notification" in window) {
+          Notification.requestPermission().then((result) => {
+            if (result === "denied") {
+              console.log("Fitur notifikasi tidak diijinkan.");
+              return;
+            } else if (result === "default") {
+              console.error("Pengguna menutup kotak dialog permintaan ijin.");
+              return;
+            }
+            //console.log("Notification granted");
+
+            if ("PushManager" in window) {
+              //console.log("PushManager exist!");
+
+              navigator.serviceWorker.getRegistration().then((reg) => {
+                reg.pushManager
+                  .subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey:
+                    urlBase64ToUint8Array('BB8d6MTzrVf1jV74P4YKFO0-5_etsfNqMjZPOOU0VXgbVeVQMQ4_Q1yPIuS_69B7kKW9ijcOe_x5nlvHkmPsAsk'),
+                  })
+                  .then((sub) => {
+                    // console.log(
+                    //   "Berhasil melakukan subscribe dengan endpoint:" +
+                    //     sub.endpoint
+                    // );
+                    // console.log(
+                    //   "p256dh: " +
+                    //     btoa(
+                    //       String.fromCharCode.apply(
+                    //         null,
+                    //         new Uint8Array(sub.getKey("p256dh"))
+                    //       )
+                    //     )
+                    // );
+                    // console.log(
+                    //   "auth: " +
+                    //     btoa(
+                    //       String.fromCharCode.apply(
+                    //         null,
+                    //         new Uint8Array(sub.getKey("auth"))
+                    //       )
+                    //     )
+                    // );
+                  })
+                  .catch((e) => {
+                    console.log("Error: ", e);
+                  });
+              });
+            }
+          });
+        }
+      }
+
+      function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+        const base64 = (base64String + padding)
+          .replace(/-/g, "+")
+          .replace(/_/g, "/");
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
+
+      // REQUEST API UNTUK PERTAMA KALI
+      document.addEventListener("DOMContentLoaded", function () {
+        var page = window.location.hash.substr(1);
+      });
+    </script>
+  </body>
+</html>
