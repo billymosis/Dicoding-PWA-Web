@@ -1,0 +1,38 @@
+.arrow {
+  cursor: pointer;
+}
+
+.arrow:after {
+  display: inline-block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: transparent
+    url("../Assests/arrows-up-and-down-filled-triangles.svg") no-repeat;
+  background-size: 10px 10px;
+  margin-left: 5px;
+  transform: rotate(0deg);
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.arrow:hover::after {
+  opacity: 1;
+}
+
+
+
+td > div > img {
+  vertical-align: middle;
+}
+
+.loading{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 50vmax;
+}
+
+.m-0 {
+  margin: 0px;
+}

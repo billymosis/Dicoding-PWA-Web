@@ -1,0 +1,24 @@
+{
+    "name": "Football Time!",
+    "short_name": "My Football",
+    "description": "Football schedule, standings, and favorites",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#00897B",
+    "theme_color": "#00897B",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "maskable_icon.png",
+            "sizes": "853x853",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "gcm_sender_id": "126195007564"
+}
